@@ -1,0 +1,1057 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.1">
+  <zoom_level>8</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>696</x>
+      <y>824</y>
+      <w>352</w>
+      <h>264</h>
+    </coordinates>
+    <panel_attributes>class DVDModel
+--
+-id: int
+-name: str
+-date: date
+--
++__init__( id:int, name:string, date:date)
+
++get_id(): int
++get_name(): string
++get_date(): date
+
++set_id(id:int)
++set_name(name:str)
++set_date(date:date)
+
++update()       #metoda aktualizująca wpisy w bazie danych
++delete()         #metoda usuwająca wpisy w bazie danych
+--
+# metody klasy
++select(id:int, name:string, date:date): list
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>256</x>
+      <y>824</y>
+      <w>200</w>
+      <h>224</h>
+    </coordinates>
+    <panel_attributes>class CategoryModel
+--
+-id: int
+-name: str
+--
++__init__(id:int, name:string)
+
++get_id(): int
++get_name(): string
+
++set_id(id:int)
++set_name(name:str)
+
++update()
++delete()
+--
+# metody klasy
++select(id:int, name:string): list
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1392</x>
+      <y>824</y>
+      <w>296</w>
+      <h>360</h>
+    </coordinates>
+    <panel_attributes>class HistoryLogModel
+--
+-id: int
+-time_date: timedate
+-physical_dvd_id: int
+-client_id: int
+-rental_state_id: int
+--
++__init__(id:int, time_date:timedate, physical_dvd_id:int, 
+    client_id:int, rental_state_id:int)
+
++get_id(): int
++get_time_date(): Date
++get_physical_dvd_id(): int
++get_client_id(): int
++get_rental_state_id(): int
+
++set_id(id:int)
++set_time_date(date:Date)
++set_physical_dvd_id(physical_dvd_id:int)
++set_client_id(client_id:int)
++set_rental_state_id(rental_state_id:int)
+
++update()
++delete()
+--
+# metody klasy
++select(id:int, time_date:timedate, physical_dvd_id:int, 
+    client_id:int, rental_state_id:int)
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1336</x>
+      <y>88</y>
+      <w>312</w>
+      <h>248</h>
+    </coordinates>
+    <panel_attributes>class DatabaseManagement
+--
++all_tables_create()
+
++dvd_table_create()
++category_table_create()
++dvd_category_relation_table_create()
++history_log_table_create()
++rental_state_table_create()
++client_table_create()
+
++check_database() #sprawdza, poprawność bazy danych
++all_delete()
++dvd_table_delete()
++category_table_delete()
++dvd_category_relation_table_delete()
++history_log_table_delete()
++rental_state_table_delete()
++client_table_delete()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>920</x>
+      <y>88</y>
+      <w>312</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>class Application
+--
+-views: dict    # string: view_class
+--
++__init__()
+
++create_main_frame()
++change_view(view: string)
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>992</x>
+      <y>0</y>
+      <w>168</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>class Tk (tkinter)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1072</x>
+      <y>16</y>
+      <w>24</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>688</x>
+      <y>576</y>
+      <w>168</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>class DVDAddView
+--
++_init__(parent)
+
++create_view(parent)
++create_dvd()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>488</x>
+      <y>264</y>
+      <w>168</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>class Frame (tkinter)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>560</x>
+      <y>280</y>
+      <w>224</w>
+      <h>312</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;290.0;260.0;290.0;260.0;370.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>464</x>
+      <y>576</y>
+      <w>216</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>class DVDSearchView
+--
++__init__(parent)
+
++create_view(parent)
++create_search_frame(parent)
++delete_search_frame(parent)
++create_dvd_frame(parent, dvd_model)
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>864</x>
+      <y>616</y>
+      <w>168</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>class DVDDeleteView
+--
++__init__(parent)
+
++create_view()
++delete_dvd()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1040</x>
+      <y>576</y>
+      <w>168</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>class DVDEditView
+--
++__init__(parent)
+
++create_view(parent)
++edit_dvd()
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1216</x>
+      <y>576</y>
+      <w>168</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>class DVDBorrowView
+--
++__init__(parent)
+
++create_view(parent)
++borrow_dvd()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1568</x>
+      <y>576</y>
+      <w>304</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>class HistoryLogsView
+--
++__init__(parent)
+
++create_view(parent)
++create_search_view(parent)
++create_history_log_frame(parent, history_log_model)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>560</x>
+      <y>280</y>
+      <w>24</w>
+      <h>312</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;370.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>560</x>
+      <y>280</y>
+      <w>400</w>
+      <h>352</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;290.0;480.0;290.0;480.0;420.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>560</x>
+      <y>280</y>
+      <w>576</w>
+      <h>312</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;290.0;700.0;290.0;700.0;370.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>560</x>
+      <y>280</y>
+      <w>752</w>
+      <h>312</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;290.0;920.0;290.0;920.0;370.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>560</x>
+      <y>280</y>
+      <w>1184</w>
+      <h>312</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;290.0;1460.0;290.0;1460.0;370.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>632</x>
+      <y>384</y>
+      <w>168</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>class Header
+--
++__init__(parent, view)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>560</x>
+      <y>280</y>
+      <w>168</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0;190.0;60.0;190.0;130.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1392</x>
+      <y>576</y>
+      <w>168</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>class DVDReturnView
+--
++__init__(parent)
+
++create_view(parent)
++return_dvd()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>560</x>
+      <y>280</y>
+      <w>928</w>
+      <h>312</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;290.0;1140.0;290.0;1140.0;370.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>1664</x>
+      <y>88</y>
+      <w>296</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>bg=#aaaaaa
+Zarządzanie bazą danych
+Upewnienie się że są stworzone wszystkie potrzebne
+tabele i utworzenie ich w przypadku gdy ich nie ma.
+
+Możliwość usunięcia tabel</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>672</x>
+      <y>88</y>
+      <w>232</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>bg=#aaaaaa
+Klasa aplikacji zarządzająca widokami</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>464</x>
+      <y>528</y>
+      <w>216</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>bg=#aaaaaa
+Widok do przeglądania 
+wszystkich dostępnych płyt dvd</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>688</x>
+      <y>528</y>
+      <w>168</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>bg=#aaaaaa
+Widok do dodawania rekordów
+płyt dvd do baziy danych</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>864</x>
+      <y>568</y>
+      <w>168</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>bg=#aaaaaa
+Widok do usuwania rekordów
+płyt dvd z bazy danych</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>1040</x>
+      <y>528</y>
+      <w>168</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>bg=#aaaaaa
+Widok do edytowania rekordów
+płyt dvd w bazie danych</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>1216</x>
+      <y>528</y>
+      <w>168</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>bg=#aaaaaa
+Widok do wypożyczania płyt</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>1392</x>
+      <y>528</y>
+      <w>168</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>bg=#aaaaaa
+Widok do zwracania płyt</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>1568</x>
+      <y>528</y>
+      <w>304</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>bg=#aaaaaa
+Widok do przeglądania historii wypożyczeń i zwrotów</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>864</x>
+      <y>528</y>
+      <w>168</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>bg=#ff4444
+Raczej nie jest potrzebne!!
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>464</x>
+      <y>824</y>
+      <w>224</w>
+      <h>256</h>
+    </coordinates>
+    <panel_attributes>class DVDCategoryRelationModel
+--
+-id: int
+-dvd_id: int
+-category_id: int
+--
++__init__(id:int, dvd_id:int, category_id:int)
+
++get_id(): int
++get_dvd_id(): int
++get_category_id(): int
+
++set_id(id:int)
++set_dvd_id(dvd_id:int)
++set_category_id(category_id:int)
+
++update()
++delete()
+--
+# metody klasy
++select(id:int, name:string): list
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1696</x>
+      <y>824</y>
+      <w>296</w>
+      <h>368</h>
+    </coordinates>
+    <panel_attributes>class ClientModel
+--
+id: int
+first_name: str
+last_name: str
+email: str
+phone_number: str
+--
++__init__(id:int, first_name:str, last_name:str, email:str,
+    phone_number:str)
+
++get_id(): int
++get_first_name(): str
++get_last_name(): str
++get_email(): str
++get_phone_number(): str
+
++set_id(int)
++set_first_name(str)
++set_last_name(str)
++set_email(str)
++set_phone_number(str)
+
++update()
++delete()
+--
+# metody klasy
++select(id:int, first_name:str, last_name:str, email:str,
+    phone_number:str)
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>808</x>
+      <y>384</y>
+      <w>192</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>bg=#aaaaaa
+Służący do przełączania się między 
+widokami</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>24</x>
+      <y>1120</y>
+      <w>168</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>class date (datetime)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1056</x>
+      <y>824</y>
+      <w>328</w>
+      <h>320</h>
+    </coordinates>
+    <panel_attributes>class PhysicalDVDModel
+--
+-id: int
+-physical_code: str
+-dvd_id: int
+-rental_state_id
+--
++__init__( id:int, physical_code:str, dvd_id:int, 
+    rental_state_id:int)
+
++get_id(): int
++get_physical_code(): string
++get_dvd_id(): int
++get_rental_state_id(): int
+
++set_id(id:int)
++set_physical_code(name:str)
++set_dvd_id(dvd_id:int)
++set_rental_state_id(rental_state_id:int)
+
++update()       #metoda aktualizująca wpisy w bazie danych
++delete()         #metoda usuwająca wpisy w bazie danych
+--
+# metody klasy
++select(id:int, physical_code:str, dvd_id:int, 
+    rental_state:int): list
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>184</x>
+      <y>1080</y>
+      <w>664</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+&lt;&lt;include&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;70.0;810.0;70.0;810.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>24</x>
+      <y>1184</y>
+      <w>168</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>class datetime (datetime)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>184</x>
+      <y>1176</y>
+      <w>1352</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+&lt;&lt;include&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;30.0;1670.0;30.0;1670.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>16</x>
+      <y>1272</y>
+      <w>168</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>sqlite3 library
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>176</x>
+      <y>1040</y>
+      <w>200</w>
+      <h>256</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+fg=blue</panel_attributes>
+    <additional_attributes>10.0;300.0;230.0;300.0;230.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>176</x>
+      <y>1072</y>
+      <w>416</w>
+      <h>224</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+fg=blue</panel_attributes>
+    <additional_attributes>10.0;260.0;500.0;260.0;500.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>176</x>
+      <y>1080</y>
+      <w>672</w>
+      <h>216</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+fg=blue</panel_attributes>
+    <additional_attributes>10.0;250.0;820.0;250.0;820.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>176</x>
+      <y>1136</y>
+      <w>1056</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+fg=blue</panel_attributes>
+    <additional_attributes>10.0;180.0;1300.0;180.0;1300.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>176</x>
+      <y>1176</y>
+      <w>1360</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+fg=blue</panel_attributes>
+    <additional_attributes>10.0;130.0;1680.0;130.0;1680.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>176</x>
+      <y>1184</y>
+      <w>1680</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+fg=blue</panel_attributes>
+    <additional_attributes>10.0;120.0;2080.0;120.0;2080.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>224</x>
+      <y>1256</y>
+      <w>48</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;include&gt;&gt;
+fg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>560</x>
+      <y>680</y>
+      <w>72</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+&lt;&lt;include&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;180.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1080</x>
+      <y>192</y>
+      <w>72</w>
+      <h>296</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+&lt;&lt;include&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;350.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>560</x>
+      <y>776</y>
+      <w>312</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+</panel_attributes>
+    <additional_attributes>370.0;60.0;370.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>352</x>
+      <y>776</y>
+      <w>232</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+</panel_attributes>
+    <additional_attributes>10.0;60.0;10.0;20.0;270.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>440</x>
+      <y>472</y>
+      <w>1456</w>
+      <h>240</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>560</x>
+      <y>648</y>
+      <w>232</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>lt=.
+</panel_attributes>
+    <additional_attributes>10.0;100.0;270.0;100.0;270.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>768</x>
+      <y>688</y>
+      <w>200</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>lt=.
+</panel_attributes>
+    <additional_attributes>10.0;50.0;230.0;50.0;230.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>944</x>
+      <y>648</y>
+      <w>200</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>lt=.
+</panel_attributes>
+    <additional_attributes>10.0;100.0;230.0;100.0;230.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>848</x>
+      <y>776</y>
+      <w>408</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+</panel_attributes>
+    <additional_attributes>490.0;60.0;490.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1416</x>
+      <y>768</y>
+      <w>128</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+fg=blue
+&lt;&lt;include&gt;&gt;
+</panel_attributes>
+    <additional_attributes>140.0;70.0;140.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1520</x>
+      <y>768</y>
+      <w>288</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+fg=blue
+</panel_attributes>
+    <additional_attributes>340.0;70.0;340.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1416</x>
+      <y>648</y>
+      <w>24</w>
+      <h>152</h>
+    </coordinates>
+    <panel_attributes>lt=.
+fg=blue
+</panel_attributes>
+    <additional_attributes>10.0;170.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>952</x>
+      <y>744</y>
+      <w>248</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+fg=red
+</panel_attributes>
+    <additional_attributes>10.0;100.0;10.0;20.0;290.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1176</x>
+      <y>648</y>
+      <w>112</w>
+      <h>192</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+fg=red
+&lt;&lt;include&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;220.0;10.0;110.0;120.0;110.0;120.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1328</x>
+      <y>648</y>
+      <w>112</w>
+      <h>152</h>
+    </coordinates>
+    <panel_attributes>lt=.
+fg=blue
+</panel_attributes>
+    <additional_attributes>120.0;170.0;10.0;170.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1264</x>
+      <y>648</y>
+      <w>232</w>
+      <h>104</h>
+    </coordinates>
+    <panel_attributes>lt=.
+fg=red
+</panel_attributes>
+    <additional_attributes>10.0;110.0;270.0;110.0;270.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1472</x>
+      <y>664</y>
+      <w>232</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>lt=.
+fg=red
+</panel_attributes>
+    <additional_attributes>10.0;90.0;270.0;90.0;270.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1744</x>
+      <y>664</y>
+      <w>24</w>
+      <h>136</h>
+    </coordinates>
+    <panel_attributes>lt=.
+fg=blue
+</panel_attributes>
+    <additional_attributes>10.0;150.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1224</x>
+      <y>112</y>
+      <w>128</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+&lt;&lt;include&gt;&gt;</panel_attributes>
+    <additional_attributes>140.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>0</x>
+      <y>872</y>
+      <w>192</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>bg=#aaaaaa
+Klasy odpowiadające za 
+zarządzanie rekordami w
+odpowiednich tabelach</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
