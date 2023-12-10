@@ -1,12 +1,13 @@
 import tkinter as tk
 from tkinter import ttk
 
-class DVDAddView(ttk.Frame):
+class DVDEditView(ttk.Frame):
     def __init__(self, parent, controler):
         super().__init__(parent, width=parent.winfo_reqwidth())
         container = ttk.Frame(self)
         container.pack(fill='x', expand=True, padx=(50,0), pady=(50,0))
-        ttk.Label(container, text="Dodawanie nowej płyty DVD", font=('Arial', 22)).pack(pady=(8,20))
+        ttk.Label(container, text="Edycja płyty DVD", font=('Arial', 22)).pack(pady=(8,20))
+        ttk.Button(container, text="Usuń płytę DVD").pack(anchor='e', pady=(0,20), padx=(0,40))
         # Pole do wpisania nazwy
         ttk.Label(container, text='Nazwa', font=('Arial', 16)).pack(anchor='w')
         ttk.Entry(container, width=30).pack(anchor='w', pady=(8,20))
@@ -23,4 +24,4 @@ class DVDAddView(ttk.Frame):
         ttk.Label(container, text='Kody fizycznych kopii (wymień po przecinku)', font=('Arial', 16)).pack(anchor='w')
         ttk.Entry(container, width=30).pack(anchor='w', pady=(8,20))
         # Przycisk do stworzenia zapisu o płycie DVD
-        ttk.Button(container, text='Stwórz').pack(anchor='w', padx=50, pady=10)
+        ttk.Button(container, text='Aktualizuj').pack(anchor='w', padx=50, pady=10)
