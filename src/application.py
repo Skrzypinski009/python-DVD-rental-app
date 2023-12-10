@@ -2,10 +2,12 @@ import tkinter as tk
 from tkinter import ttk
 from src.views.dvd_search_view import DVDSearchView
 from src.frames.header_frame import HeaderFrame
+from src.views.dvd_add_view import DVDAddView
 
 class Application(tk.Tk):
     views = {
         "dvd_search": DVDSearchView,
+        "dvd_add": DVDAddView,
     }
     def __init__(self):
         super().__init__();
@@ -28,7 +30,7 @@ class Application(tk.Tk):
         scrollbar.pack(side='right', fill='y')
         self.view_canvas.configure(yscrollcommand=scrollbar.set)
         self.view_canvas.bind("<Configure>", self.on_configure)
-        self.change_view('dvd_search')
+        self.change_view('dvd_add')
 
         
     def change_view(self, view:str):
