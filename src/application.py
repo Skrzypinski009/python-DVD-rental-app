@@ -14,7 +14,7 @@ class Application(tk.Tk):
         "history_log": HistoryLogView,
     }
     def __init__(self):
-        super().__init__();
+        super().__init__()
         self.title("Ale jaja")
         self.geometry("800x600")
         self.configure_styles()
@@ -56,7 +56,6 @@ class Application(tk.Tk):
             background='#222', 
             foreground='#ddd', 
             relief='flat', 
-            width=10, 
             font=('Arial', 16, 'normal')
         )
 
