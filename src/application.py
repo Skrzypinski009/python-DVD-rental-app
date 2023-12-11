@@ -38,7 +38,6 @@ class Application(tk.Tk):
         self.view_canvas.bind("<Configure>", self.on_configure)
         self.change_view('dvd_borrow')
 
-        
     def change_view(self, view:str):
         if self.current_view is not None:
             self.view_canvas.delete(self.current_view_window)
