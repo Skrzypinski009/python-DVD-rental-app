@@ -6,6 +6,7 @@ from src.views.dvd_add_view import DVDAddView
 from src.views.dvd_edit_view import DVDEditView
 from src.views.history_log_view import HistoryLogView
 from src.views.dvd_borrow_view import DVDBorrowView
+from src.views.dvd_return_view import DVDReturnView
 
 class Application(tk.Tk):
     views = {
@@ -14,6 +15,7 @@ class Application(tk.Tk):
         "dvd_edit": DVDEditView,
         "history_log": HistoryLogView,
         "dvd_borrow": DVDBorrowView,
+        "dvd_return": DVDReturnView,
     }
     def __init__(self):
         super().__init__()
@@ -36,7 +38,7 @@ class Application(tk.Tk):
         scrollbar.pack(side='right', fill='y')
         self.view_canvas.configure(yscrollcommand=scrollbar.set)
         self.view_canvas.bind("<Configure>", self.on_configure)
-        self.change_view('dvd_borrow')
+        self.change_view('dvd_search')
 
     def change_view(self, view:str):
         if self.current_view is not None:
