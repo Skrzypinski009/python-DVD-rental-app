@@ -5,6 +5,7 @@ from src.frames.header_frame import HeaderFrame
 from src.views.dvd_add_view import DVDAddView
 from src.views.dvd_edit_view import DVDEditView
 from src.views.history_log_view import HistoryLogView
+from src.views.dvd_borrow_view import DVDBorrowView
 
 class Application(tk.Tk):
     views = {
@@ -12,6 +13,7 @@ class Application(tk.Tk):
         "dvd_add": DVDAddView,
         "dvd_edit": DVDEditView,
         "history_log": HistoryLogView,
+        "dvd_borrow": DVDBorrowView,
     }
     def __init__(self):
         super().__init__();
@@ -34,7 +36,7 @@ class Application(tk.Tk):
         scrollbar.pack(side='right', fill='y')
         self.view_canvas.configure(yscrollcommand=scrollbar.set)
         self.view_canvas.bind("<Configure>", self.on_configure)
-        self.change_view('history_log')
+        self.change_view('dvd_borrow')
 
         
     def change_view(self, view:str):
