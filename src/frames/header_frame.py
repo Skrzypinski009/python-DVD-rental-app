@@ -10,7 +10,7 @@ class HeaderFrame(ttk.Frame):
 
         self.create_button(padding_frame, 'DVD Search', self.dvd_search_view)
         self.create_button(padding_frame, 'DVD Add', self.dvd_add_view)
-        self.create_button(padding_frame, 'Return DVD', None)
+        self.create_button(padding_frame, 'Return DVD', self.dvd_return_view)
         self.create_button(padding_frame, 'Rental History', self.history_log_view)
         
     def create_button(self, parent, text, command):
