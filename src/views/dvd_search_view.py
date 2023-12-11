@@ -4,6 +4,7 @@ import tkinter as tk
 class DVDSearchView(ttk.Frame):
     def __init__(self, parent, controler):
         super().__init__(parent, width=parent.winfo_reqwidth())
+        self.controler = controler
         # -- Ttworzenie elementów widoku --
         self.dvd_frames = [] # aktualnie wyświetlane dvd_frame
         self.search_bar = self.create_search_bar() # tworzenie pola do wyszukiwania
@@ -51,6 +52,8 @@ class DVDSearchView(ttk.Frame):
             lab = ttk.Label(cat_frame, text="Category")
             lab.pack(padx=10, side='left')
         ttk.Label(dvd_frame, text="liczba kopii: 2").pack(anchor='w')
+        ttk.Button(dvd_frame, text="Wyporzycz", command=self.dvd_borrow_view).pack(side='left')
+        ttk.Button(dvd_frame, text="Edytuj", command=self.dvd_edit_view).pack(side='left')
         return dvd_frame
 
     # tworzenie panelu z przyciskami do przełączania stron
@@ -63,3 +66,8 @@ class DVDSearchView(ttk.Frame):
         right_button.pack(side='left')
         bottom_bar.pack(pady=10)
 
+    def dvd_borrow_view(self):
+        self.controler.change_view('dvd_borrow')
+
+    def dvd_edit_view(self):
+        self.controler.change_view('dvd_edit')
