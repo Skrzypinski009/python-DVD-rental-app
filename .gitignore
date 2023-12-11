@@ -1,0 +1,9 @@
+
+src/__pycache__/application.cpython-311.pyc
+src/__pycache__/application.cpython-311.pyc
+src/frames/__pycache__/header_frame.cpython-311.pyc
+src/views/__pycache__/dvd_add_view.cpython-311.pyc
+src/views/__pycache__/dvd_borrow_view.cpython-311.pyc
+*.pyc
+src/__pycache__/application.cpython-311.pyc
+src/frames/__pycache__/header_frame.cpython-311.pyc
