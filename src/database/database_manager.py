@@ -1,9 +1,6 @@
 import sqlite3
 
 class DatabaseManager:
-    def __init__(self):
-        self.check_database()
-
     def check_database(self):
         conn = sqlite3.connect("data/database.db")
         cur = conn.cursor()
