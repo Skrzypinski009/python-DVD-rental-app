@@ -15,6 +15,7 @@ class DatabaseManager:
         self.dvd_table_create(cursor, connection)
         self.category_table_create(cursor, connection)
         self.category_table_delete(cursor, connection)
+        self.dvd_category_relation_table_create(cursor, connection)
         # kolejne tworzenie tabel
 
     def dvd_table_create(self, cursor, connection):
@@ -24,8 +25,17 @@ class DatabaseManager:
                        date TIMESTAMP)''')
         connection.commit()
 
+    def dvd_category_relation_table_create(self, cursor, connection):
+        cursor.execute('''CREATE TABLE IF NOT EXIST dvd_category_relation
+                       (id INTEGER primary key autoincrement
+                       dvd_id INTEGER NOT NULL,
+                       FOREIGN KEY (dvd_id))''')
+        connection.commit()
+
+
     def all_tables_delete(self, cursor, connection):
         self.dvd_table_delete(cursor, connection)
+        self.dvd_category_relation_table_delete(cursor, connection)
         #kolejne usuwanie tabel
 
     def dvd_table_delete(self, cursor, connection):
@@ -40,4 +50,8 @@ class DatabaseManager:
 
     def category_table_delete(self, cursor, connection):
         cursor.execute('''DROP TABLE IF EXIST category''')
+        connection.commit()
+        
+    def dvd_category_relation_table_delete(self, cursor, connection):
+        cursor.execute('''DROP TABLE IF EXIST dvd_category_relation''')
         connection.commit()
