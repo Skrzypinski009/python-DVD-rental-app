@@ -30,3 +30,12 @@ class DatabaseManager:
     def dvd_table_delete(self, cursor, connection):
         cursor.execute('''DROP TABLE IF EXIST dvd''')
         connection.commit()
+
+
+    def category_table_create(self, cursor, connection):
+            cursor.execute('''CREATE TABLE IF NOT EXIST category
+                        (id INTEGER primary key autoincrement
+                        name TEXT)''')
+            
+            
+            connection.commit()
