@@ -11,8 +11,8 @@ class DatabaseManager:
     def all_tables_create(self, cursor, connection):
         self.dvd_table_create(cursor, connection)
         self.category_table_create(cursor, connection)
-        self.category_table_delete(cursor, connection)
         self.dvd_category_relation_table_create(cursor, connection)
+        self.client_table_create(cursor, connection)
         # kolejne tworzenie tabel
 
     def dvd_table_create(self, cursor, connection):
@@ -44,11 +44,36 @@ class DatabaseManager:
                         (id INTEGER primary key autoincrement
                         name TEXT)''')
             connection.commit()
+    
+    def client_table_create(self, cursor, connection):
+        cursor.execute('''CREATE TABLE IF NOT EXISTS client (
+                        id INTEGER PRIMARY KEY autoincrement,
+                        first_name TEXT,
+                        last_name TEXT,
+                        email TEXT,
+                        phone_number TEXT)''')
+        connection.commit()
+
+    def rental_state_table_create(self, cursor, connection):
+        cursor.execute('''CREATE TABLE IF NOT EXISTS rental_state(
+                       id INTEGER PRIMARY KEY autoincrement,
+
+        )''')
 
     def category_table_delete(self, cursor, connection):
         cursor.execute('''DROP TABLE IF EXIST category''')
         connection.commit()
-        
+
     def dvd_category_relation_table_delete(self, cursor, connection):
         cursor.execute('''DROP TABLE IF EXIST dvd_category_relation''')
         connection.commit()
+
+   
+    
+    def client_table_delete(self, cursor, connection):
+        cursor.execute('''DROP TABLE IF EXIST client_table''')
+        connection.commit()
+    
+
+
+    
