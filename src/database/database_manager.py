@@ -39,6 +39,8 @@ class DatabaseManager:
         self.dvd_category_relation_table_create(cursor, connection)
         self.physical_dvd_table_create(cursor, connection)
         self.hisrory_log_table_create(cursor, connection)
+        self.client_table_create(cursor, connection)
+        self.rental_state_table_create(cursor, connection)
 
     def dvd_table_create(self, cursor, connection):
         cursor.execute('''CREATE TABLE IF NOT EXISTS dvd
@@ -76,6 +78,22 @@ class DatabaseManager:
                        rental_state_id INTEGER NOT NULL REFERENCES rental_state,
                        client_id INTEGER NOT NULL REFERENCES client);''')
         connection.commit()
+    
+    def client_table_create(self, cursor, connection):
+        cursor.execute('''CREATE TABLE IF NOT EXISTS client (
+                        id INTEGER PRIMARY KEY autoincrement,
+                        first_name TEXT,
+                        last_name TEXT,
+                        email TEXT,
+                        phone_number TEXT);''')
+        connection.commit()
+
+    def rental_state_table_create(self, cursor, connection):
+        cursor.execute('''CREATE TABLE IF NOT EXISTS rental_state(
+                       id INTEGER PRIMARY KEY autoincrement,
+                       physical_dvd_id INTEGER NOT NULL REFERENCES physical_dvd,
+                       state INTEGER);''')
+        connection.commit()
 
 ### DELETING TABLES METHODS ###
     def all_tables_delete(self, cursor, connection):
@@ -84,6 +102,8 @@ class DatabaseManager:
         self.dvd_category_relation_table_delete(cursor, connection)
         self.physical_dvd_table_delete(cursor, connection)
         self.history_log_table_delete(cursor, connection)
+        self.client_table_delete(cursor, connection)
+        self.rental_state_table_delete(cursor, connection)
 
     def dvd_table_delete(self, cursor, connection):
         cursor.execute('''DROP TABLE IF EXISTS dvd;''')
@@ -98,11 +118,19 @@ class DatabaseManager:
         connection.commit()
 
     def physical_dvd_table_delete(self, cursor, connection):
-        cursor,execute('''DROP TABLE IF EXISTS physical_dvd;''')
+        cursor.execute('''DROP TABLE IF EXISTS physical_dvd;''')
         connection.commit()
 
     def history_log_table_delete(self, cursor, connection):
-        cursor,execute('''DROP TABLE IF EXISTS history_log;''')
+        cursor.execute('''DROP TABLE IF EXISTS history_log;''')
+        connection.commit()
+
+    def client_table_delete(self, cursor, connection):
+        cursor.execute('''DROP TABLE IF EXIST client_table''')
+        connection.commit()
+
+    def rental_state_table_delete(self, cursor, connection):
+        cursor.execute('''DROP TABLE IF EXIST rental_state''')
         connection.commit()
 
 ### CLASS METHODS FOR MODELS ###
