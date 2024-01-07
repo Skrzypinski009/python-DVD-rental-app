@@ -1,5 +1,6 @@
 import sqlite3
 import os
+import datetime
 
 class DatabaseManager:
     DB_PATH = "data/database.db"
@@ -19,6 +20,9 @@ class DatabaseManager:
     def val_to_str(cls, val):
         if(type(val) == str):
             return f'"{val}"'
+        if(type(val) == datetime.datetime):
+            return f'{val.timestamp()}'
+
         return str(val)
 
     def check_database(self):
@@ -103,24 +107,24 @@ class DatabaseManager:
 
 ### CLASS METHODS FOR MODELS ###
     @classmethod
-    def get_name_eq_val(cls, fields_values, fields_names):
-        arr_equals = []
-        # dla wartości i indeksów id,name,date 
-        for idx, val in enumerate(fields_values):
-            # dodaj do arr_equals "<nazwa_pola> = <wartość_pola>"
-            # tylko jeśli wartość nie jest równa None
-            if val != None:
-                arr_equals.append(f"{fields_names[idx]} = {cls.val_to_str(val)}")
-        # połącz wartości arr_equals tekstem ", "
-        return ", ".join(arr_equals)
+    def get_name_eq_val(cls, fields: dict):
+        eq = []
+        for key, val in fields.items():
+            if type(val) == list:
+                eq.append(f'{key} IN ({", ".join(cls.val_to_str(val))})')
+            else:
+                eq.append(f'{key} = {cls.val_to_str(val)}')
+        return eq
+
+    
 
     @classmethod
-    def update(cls, table_name, fields_values, fields_names):
+    def update(cls, table_name, id, fields):
         conn, cur = cls.get_conn_cur()
-        # set ustawia wartości poza id
-        update_set = get_name_eq_val(fields_values[1:], fields_names[1:])
-        # where zawiera tylko id = <wartość_id>
-        where_id = f"{fields_names[0]} = {fields_values[0]}"
+        if 'id' in fields.keys():
+            fields.pop('id')
+        update_set = ', '.join(get_name_eq_val(fields))
+        where_id = f"id = {id}"
         cur.execute(f'''
             UPDATE {table_name}
             SET {update_set}
@@ -130,17 +134,17 @@ class DatabaseManager:
         cls.close(conn, cur)
 
     @classmethod
-    def insert(cls, table_name, fields_values, fields_names):
+    def insert(cls, table_name, fields):
         conn, cur = cls.get_conn_cur()
         names = []
         values = []
         cmd = f'INSERT INTO {table_name}'
-        for idx, val in enumerate(fields_values):
-            if val != None:
-                values.append(cls.val_to_str(val))
-                names.append(fields_names[idx])
+        for key, val in fields.items():
+            values.append(cls.val_to_str(val))
+            names.append(key)
         cmd += f' ({", ".join(names)})'
         cmd += f' VALUES ({", ".join(values)});'
+        print(cmd)
         cur.execute(cmd)
         conn.commit()
         cls.close(conn, cur)
@@ -148,13 +152,14 @@ class DatabaseManager:
 
 
     @classmethod
-    def select(cls, table_name, fields_values, fields_names, limit=None, offset=None):
+    def select(cls, table_name, cols, where_fields, limit=None, offset=None):
         conn, cur = cls.get_conn_cur()
-        where = cls.get_name_eq_val(fields_values, fields_names)
-        cmd = f'SELECT * FROM {table_name}' 
+        where = ' AND '.join(cls.get_name_eq_val(where_fields))
+        cmd = f'SELECT {", ".join(cols)} FROM {table_name}' 
         cmd += f' WHERE {where}' if where != '' else ''
         cmd += f' LIMIT {str(limit)}' if limit != None else ''
         cmd += f' OFFSET {str(offset)}' if offset != None else ''
+        print(cmd)
         cur.execute(cmd)
         rows = cur.fetchall()
         cls.close(conn, cur)
@@ -171,11 +176,12 @@ class DatabaseManager:
         cls.close(conn, cur)
 
     @classmethod
-    def delete_where(cls, table_name, fields_values, fields_names):
+    def delete_where(cls, table_name, fields):
         conn, cur = cls.get_conn_cur()
-        where = cls.get_name_eq_val(fields_values, fields_names)
-        cmd = f'DELETE * FROM {table_name}' 
+        where = ' AND '.join(cls.get_name_eq_val(fields))
+        cmd = f'DELETE FROM {table_name}' 
         cmd += f' WHERE {where}' if where != '' else ''
+        print(cmd)
         cur.execute(cmd)
         conn.commit()
         cls.close(conn, cur)
