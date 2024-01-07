@@ -23,6 +23,7 @@ class Application(tk.Tk):
         self.geometry("800x600")
         self.configure_styles()
         self.create_main_view()
+        self.selected_dvd = -1
 
     def create_main_view(self):
         self.current_view = None

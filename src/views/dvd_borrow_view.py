@@ -1,8 +1,10 @@
 from tkinter import ttk 
 
 class DVDBorrowView(ttk.Frame):
-     def __init__(self, parent, controler):
+     def __init__(self, parent, controler, selected_dvd=-1):
         super().__init__(parent, width=parent.winfo_reqwidth())
+        self.selected_dvd = selected_dvd
+
         container = ttk.Frame(self)
 
         container.pack(fill='x', expand=True, padx=(50,0), pady=(50,0))
