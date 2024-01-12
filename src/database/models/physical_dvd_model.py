@@ -30,5 +30,5 @@ class PhysicalDVDModel(Model):
 
     @classmethod
     def get_by_row(cls, row):
-        return ClientModel(row[0], row[1], row[2], row[3])
+        return PhysicalDVDModel(row[0], row[1], row[2], row[3])
 
