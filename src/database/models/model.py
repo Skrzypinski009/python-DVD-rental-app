@@ -37,9 +37,9 @@ class Model:
         return cls.select(fields)
 
     @classmethod
-    def select(cls, where_fields={}, limit=None, offset=None, order_col=None, desc=None):
+    def select(cls, where_fields={}, like_fields={}, limit=None, offset=None, order_col=None, desc=None):
         return [cls.get_by_row(row) for row in DatabaseManager.select(
-            cls.TABLE_NAME, cls.FIELDS_NAMES, where_fields, limit, offset, order_col, desc)]
+            cls.TABLE_NAME, cls.FIELDS_NAMES, where_fields, like_fields, limit, offset, order_col, desc)]
     
     @classmethod
     def delete_where(cls, fields={}):

@@ -2,6 +2,8 @@ from tkinter import ttk
 import tkinter as tk
 from datetime import datetime
 from src.database.models import DVDModel
+from src.database.models import CategoryModel
+from src.database.database_manager import DatabaseManager
 from src.frames import DVDFrame
 
 class DVDSearchView(ttk.Frame):
@@ -12,6 +14,8 @@ class DVDSearchView(ttk.Frame):
         self.page = 1
         self.dvds_count = len(DVDModel.select())
         self.page_labels = []
+        self.search_bar_var = tk.StringVar()
+        self.search = ''
         # -- Ttworzenie elementów widoku --
         self.dvd_frames = [] # aktualnie wyświetlane dvd_frame
         self.search_bar = self.create_search_bar() # tworzenie pola do wyszukiwania
@@ -24,7 +28,7 @@ class DVDSearchView(ttk.Frame):
     def create_search_bar(self):
         sb = ttk.Frame(self) # stworzenie Frame na wszystkie elementy poniżej
         sb.pack(pady=10) # wyświetlenie go
-        entry = ttk.Entry(sb, width=40) # stworzenie pola do wpisywania
+        entry = ttk.Entry(sb, width=40, textvariable=self.search_bar_var) # stworzenie pola do wpisywania
         entry.pack(side='left') # wyświetlenie go
         submit = ttk.Button(sb, text="Submit", command=self.on_submit) # stworzenie przycisku Submit
         submit.pack(side='left', padx=10) # wyświetlenie go
@@ -32,7 +36,9 @@ class DVDSearchView(ttk.Frame):
 
     # funkcja uruchamiana wciśnięciem przycisku Submit
     def on_submit(self):
-        print("click :smile:")
+        self.search = self.search_bar_var.get()
+        self.page = 1
+        self.update_page()
 
     # wypełniane kontenera dvd_frames
     def create_search(self, parent):
@@ -40,8 +46,33 @@ class DVDSearchView(ttk.Frame):
         for dvd_frame in self.dvd_frames:
             dvd_frame.destroy()
         self.dvd_frames = []
+        #wyszukiwanie filmów
+        like_dvd = {}
+        where = {}
+        
+        if self.search != '':
+            splitted = self.search.split(' ')
+            like_dvd = { 'name': [ f"%{s}%" for s in splitted ] }
+            like_category = { 'name': [ f"%{s}%" for s in splitted ]}
+            categories = CategoryModel.select(like_fields=like_category)
+            dvd_ids_raw = DatabaseManager.select(
+                'dvd_category_relation', 
+                ['dvd_id'],
+                {'category_id': [ cat.get_id() for cat in categories ]},
+                distinct = True
+            )
+            where = {'dvd_id': [ dvd[0] for dvd in dvd_ids_raw ]}
+
         # stworzenie nowych DVDFrame
-        dvd_models = DVDModel.select(limit=10, offset=(self.page-1)*10)
+        self.dvds_count = len(DVDModel.select(
+            where, like_fields=like_dvd))
+
+        dvd_models = DVDModel.select(
+            where,
+            limit=10, 
+            offset=(self.page-1)*10, 
+            like_fields=like_dvd
+        )
         for i, dvd_model in enumerate(dvd_models):
             dvd = DVDFrame(parent, self, dvd_model)
             dvd.pack(anchor='w', pady=15, padx=10)

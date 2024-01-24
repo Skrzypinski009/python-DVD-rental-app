@@ -154,6 +154,16 @@ class DatabaseManager:
         return eq
 
     @classmethod
+    def get_name_like_val(cls, fields: dict):
+        like = []
+        for key, val in fields.items():
+            if type(val) == list:
+                like += [ f'{key} LIKE {cls.val_to_str(v)}' for v in val ]
+            else:
+                like.append( f'{key} LIKE {cls.val_to_str(val)}' )
+        return like
+
+    @classmethod
     def update(cls, table_name, id, fields):
         print(fields)
         conn, cur = cls.get_conn_cur()
@@ -183,10 +193,30 @@ class DatabaseManager:
         cls.close(conn, cur)
 
     @classmethod
-    def select(cls, table_name, cols, where_fields, limit=None, offset=None, order_col=None, desc=None):
+    def select(
+            cls, 
+            table_name, 
+            cols, 
+            where_fields, 
+            like_fields={}, 
+            limit=None, 
+            offset=None, 
+            order_col=None, 
+            desc=None,
+            distinct=None
+        ):
         conn, cur = cls.get_conn_cur()
         where = ' AND '.join(cls.get_name_eq_val(where_fields))
-        cmd = f'SELECT {", ".join(cols)} FROM {table_name}' 
+        like = " OR ".join(cls.get_name_like_val(like_fields))
+
+        if where != '' and like != '':
+            where += f" OR {like}" 
+        elif where == '' and like != '':
+            where = like
+
+        cmd = 'SELECT'
+        cmd += ' DISTINCT' if distinct else ''
+        cmd += f' {", ".join(cols)} FROM {table_name}' 
         cmd += f' WHERE {where}' if where != '' else ''
         cmd += f' ORDER BY {order_col}' if order_col != None else ''
         cmd += ' DESC' if desc != None else ''
