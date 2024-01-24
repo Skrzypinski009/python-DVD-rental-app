@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from datetime import datetime
 from src.database.models import HistoryLogModel
 from src.database.models import PhysicalDVDModel
 from src.database.database_manager import DatabaseManager
@@ -40,7 +41,7 @@ class DVDReturnView(ttk.Frame):
             return 
 
         HistoryLogModel.insert({
-            'time_date': history_log.get_time_date(),
+            'time_date': datetime.now(),
             'physical_dvd_id': history_log.get_physical_dvd_id(),
             'rental_state': DatabaseManager.RETURNED,
             'client_id': history_log.get_client_id()
