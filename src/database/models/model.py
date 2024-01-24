@@ -23,11 +23,12 @@ class Model:
 
 ### DATABASE METHODS ###
     def update(self, fields):
-        DatabaseManager.update('dvd', self.id, fields)
-        return self.select(self.TABLE_NAME, {'id': self.id})
+        print(fields)
+        DatabaseManager.update(self.TABLE_NAME, self.id, fields)
+        return self.select({'id': self.id})
 
     def delete(self):
-        DatabaseManager.delete(cls.TABLE_NAME, self.id)
+        DatabaseManager.delete(self.TABLE_NAME, self.id)
 
 ### DATABASE CLASS METHODS ###
     @classmethod

@@ -4,7 +4,7 @@ from random import randrange
 
 class HistoryLogView(ttk.Frame):
     def __init__(self, parent, controler):
-        super().__init__(parent, width=parent.winfo_reqwidth())
+        super().__init__(parent)
         self.log_frames = []
         self.search_bar = self.create_search_bar()
         self.create_button_bar()

@@ -2,20 +2,15 @@ import tkinter as tk
 from tkinter import ttk
 
 class CategoryCheckboxFrame(ttk.Frame):
-    def __init__(self, parent, controller, name):
+    def __init__(self, parent, controller, name, s_var):
         super().__init__(parent)
-        self.str_val = tk.StringVar()
-        self.value = 'false'
+        self.str_var = s_var
         self.name = name
         ttk.Checkbutton(
-            self.container, 
-            text=self.name, 
-            variable = str_val,
+            self, 
+            variable = self.str_var,
             onvalue='true',
             offvalue='false',
-            font=controller.med_font
-        ).pack(anchor='w')
-
-    def on_click(self):
-        self.value = str_val.get()
+        ).pack(anchor='w', fill='none', side='left')
+        ttk.Label(self, text=self.name, font=('Arial', 14)).pack(anchor='w', fill='none', side='left')
 

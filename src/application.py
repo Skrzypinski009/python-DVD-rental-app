@@ -46,7 +46,8 @@ class Application(tk.Tk):
             self.view_canvas.delete(self.current_view_window)
             self.current_view.destroy()
         self.current_view = self.views[view](self.view_canvas, self)
-        self.current_view_window = self.view_canvas.create_window((0,0), window=self.current_view, anchor='nw')
+        self.current_view_window = self.view_canvas.create_window(
+            (0,0), window=self.current_view, anchor='nw', width=self.view_canvas.winfo_width())
 
 
     def configure_styles(self):

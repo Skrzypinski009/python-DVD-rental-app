@@ -5,6 +5,10 @@ import datetime
 class DatabaseManager:
     DB_PATH = "data/database.db"
 
+    # stałe dla rental state
+    RETURNED = 0 # (NOT_BORROWED)
+    BORROWED = 1
+
     @classmethod
     def get_conn_cur(cls):
         conn = sqlite3.connect(cls.DB_PATH)
@@ -25,113 +29,118 @@ class DatabaseManager:
 
         return str(val)
 
-    def check_database(self):
+    @classmethod
+    def check_database(cls):
         if not 'data' in os.listdir():
             os.mkdir('data')
-        conn, cur = self.get_conn_cur()
-        self.all_tables_create(cur, conn)
-        self.close(conn, cur)
+        cls.all_tables_create()
 
 ### CREATING TABLES METHODS ###
-    def all_tables_create(self, cursor, connection):
-        self.dvd_table_create(cursor, connection)
-        self.category_table_create(cursor, connection)
-        self.dvd_category_relation_table_create(cursor, connection)
-        self.physical_dvd_table_create(cursor, connection)
-        self.hisrory_log_table_create(cursor, connection)
-        self.client_table_create(cursor, connection)
-        self.rental_state_table_create(cursor, connection)
+    @classmethod
+    def all_tables_create(cls):
+        conn, cur = cls.get_conn_cur();
+        cls.dvd_table_create(cur, conn)
+        cls.category_table_create(cur, conn)
+        cls.dvd_category_relation_table_create(cur, conn)
+        cls.physical_dvd_table_create(cur, conn)
+        cls.hisrory_log_table_create(cur, conn)
+        cls.client_table_create(cur, conn)
+        cls.close(conn, cur)
 
-    def dvd_table_create(self, cursor, connection):
-        cursor.execute('''CREATE TABLE IF NOT EXISTS dvd
+    @classmethod
+    def dvd_table_create(cls, cur, conn):
+        cur.execute('''CREATE TABLE IF NOT EXISTS dvd
                        (id INTEGER primary key autoincrement,
                        name TEXT,
                        date TIMESTAMP);''')
-        connection.commit()
+        conn.commit()
 
-    def category_table_create(self, cursor, connection):
-            cursor.execute('''CREATE TABLE IF NOT EXISTS category
+    @classmethod
+    def category_table_create(cls, cur, conn):
+            cur.execute('''CREATE TABLE IF NOT EXISTS category
                         (id INTEGER primary key autoincrement,
                         name TEXT);''')
-            connection.commit()
+            conn.commit()
 
-    def dvd_category_relation_table_create(self, cursor, connection):
-        cursor.execute('''CREATE TABLE IF NOT EXISTS dvd_category_relation
+    @classmethod
+    def dvd_category_relation_table_create(cls, cur, conn):
+        cur.execute('''CREATE TABLE IF NOT EXISTS dvd_category_relation
                        (id INTEGER PRIMARY KEY AUTOINCREMENT,
                        dvd_id INTEGER NOT NULL REFERENCES dvd,
                        category_id INTEGER NOT NULL REFERENCES category);''')
-        connection.commit()
+        conn.commit()
 
-    def physical_dvd_table_create(self, cursor, connection):
-        cursor.execute('''CREATE TABLE IF NOT EXISTS physical_dvd
+    @classmethod
+    def physical_dvd_table_create(cls, cur, conn):
+        cur.execute('''CREATE TABLE IF NOT EXISTS physical_dvd
                        (id INTEGER primary key autoincrement,
                        physical_code TEXT,
-                       dvd_id INTEGER NOT NULL REFERENCES dvd,
-                       rental_state_id INTEGER NOT NULL REFERENCES rental_state);''')
-        connection.commit()
+                       rental_state INTEGER NOT NULL,
+                       dvd_id INTEGER NOT NULL REFERENCES dvd
+                       );''')
+        conn.commit()
 
-    def hisrory_log_table_create(self, cursor, connection):
-        cursor.execute('''CREATE TABLE IF NOT EXISTS history_log
+    @classmethod
+    def hisrory_log_table_create(cls, cur, conn):
+        cur.execute('''CREATE TABLE IF NOT EXISTS history_log
                        (id INTEGER primary key autoincrement,
                        time_date TIMESTAMP,
                        physical_dvd_id INTEGER NOT NULL REFERENCES physical_dvd,
-                       rental_state_id INTEGER NOT NULL REFERENCES rental_state,
+                       rental_state INTEGER NOT NULL,
                        client_id INTEGER NOT NULL REFERENCES client);''')
-        connection.commit()
+        conn.commit()
     
-    def client_table_create(self, cursor, connection):
-        cursor.execute('''CREATE TABLE IF NOT EXISTS client (
+    @classmethod
+    def client_table_create(cls, cur, conn):
+        cur.execute('''CREATE TABLE IF NOT EXISTS client (
                         id INTEGER PRIMARY KEY autoincrement,
                         first_name TEXT,
                         last_name TEXT,
                         email TEXT,
                         phone_number TEXT);''')
-        connection.commit()
-
-    def rental_state_table_create(self, cursor, connection):
-        cursor.execute('''CREATE TABLE IF NOT EXISTS rental_state(
-                       id INTEGER PRIMARY KEY autoincrement,
-                       physical_dvd_id INTEGER NOT NULL REFERENCES physical_dvd,
-                       state INTEGER);''')
-        connection.commit()
+        conn.commit()
 
 ### DELETING TABLES METHODS ###
-    def all_tables_delete(self, cursor, connection):
-        self.dvd_table_delete(cursor, connection)
-        self.category_table_delete(cursor, connection)
-        self.dvd_category_relation_table_delete(cursor, connection)
-        self.physical_dvd_table_delete(cursor, connection)
-        self.history_log_table_delete(cursor, connection)
-        self.client_table_delete(cursor, connection)
-        self.rental_state_table_delete(cursor, connection)
+    @classmethod
+    def all_tables_delete(cls):
+        conn, cur = cls.get_conn_cur()
+        cls.dvd_table_delete(cur, conn)
+        cls.category_table_delete(cur, conn)
+        cls.dvd_category_relation_table_delete(cur, conn)
+        cls.physical_dvd_table_delete(cur, conn)
+        cls.history_log_table_delete(cur, conn)
+        cls.client_table_delete(cur, conn)
+        cls.close(conn, cur)
 
-    def dvd_table_delete(self, cursor, connection):
-        cursor.execute('''DROP TABLE IF EXISTS dvd;''')
-        connection.commit()
+    @classmethod
+    def dvd_table_delete(cls, cur, conn):
+        cur.execute('''DROP TABLE IF EXISTS dvd;''')
+        conn.commit()
 
-    def category_table_delete(self, cursor, connection):
-        cursor.execute('''DROP TABLE IF EXISTS category;''')
-        connection.commit()
+    @classmethod
+    def category_table_delete(cls, cur, conn):
+        cur.execute('''DROP TABLE IF EXISTS category;''')
+        conn.commit()
         
-    def dvd_category_relation_table_delete(self, cursor, connection):
-        cursor.execute('''DROP TABLE IF EXISTS dvd_category_relation;''')
-        connection.commit()
+    @classmethod
+    def dvd_category_relation_table_delete(cls, cur, conn):
+        cur.execute('''DROP TABLE IF EXISTS dvd_category_relation;''')
+        conn.commit()
 
-    def physical_dvd_table_delete(self, cursor, connection):
-        cursor.execute('''DROP TABLE IF EXISTS physical_dvd;''')
-        connection.commit()
+    @classmethod
+    def physical_dvd_table_delete(cls, cur, conn):
+        cur.execute('''DROP TABLE IF EXISTS physical_dvd;''')
+        conn.commit()
 
-    def history_log_table_delete(self, cursor, connection):
-        cursor.execute('''DROP TABLE IF EXISTS history_log;''')
-        connection.commit()
+    @classmethod
+    def history_log_table_delete(cls, cur, conn):
+        cur.execute('''DROP TABLE IF EXISTS history_log;''')
+        conn.commit()
 
-    def client_table_delete(self, cursor, connection):
-        cursor.execute('''DROP TABLE IF EXIST client_table''')
-        connection.commit()
-
-    def rental_state_table_delete(self, cursor, connection):
-        cursor.execute('''DROP TABLE IF EXIST rental_state''')
-        connection.commit()
+    @classmethod
+    def client_table_delete(cls, cur, conn):
+        cur.execute('''DROP TABLE IF EXISTS client_table''')
+        conn.commit()
 
 ### CLASS METHODS FOR MODELS ###
     @classmethod
@@ -139,25 +148,21 @@ class DatabaseManager:
         eq = []
         for key, val in fields.items():
             if type(val) == list:
-                eq.append(f'{key} IN ({", ".join(cls.val_to_str(val))})')
+                eq.append(f'{key} IN ({", ".join([ cls.val_to_str(v) for v in val ])})')
             else:
                 eq.append(f'{key} = {cls.val_to_str(val)}')
         return eq
 
-    
-
     @classmethod
     def update(cls, table_name, id, fields):
+        print(fields)
         conn, cur = cls.get_conn_cur()
         if 'id' in fields.keys():
             fields.pop('id')
-        update_set = ', '.join(get_name_eq_val(fields))
+        update_set = ', '.join(cls.get_name_eq_val(fields))
         where_id = f"id = {id}"
-        cur.execute(f'''
-            UPDATE {table_name}
-            SET {update_set}
-            WHERE {where_id};
-        ''')
+        cmd = f"UPDATE {table_name} SET {update_set} WHERE {where_id};"
+        cur.execute(cmd)
         conn.commit()
         cls.close(conn, cur)
 
@@ -177,8 +182,6 @@ class DatabaseManager:
         conn.commit()
         cls.close(conn, cur)
 
-
-
     @classmethod
     def select(cls, table_name, cols, where_fields, limit=None, offset=None):
         conn, cur = cls.get_conn_cur()
@@ -196,10 +199,9 @@ class DatabaseManager:
     @classmethod
     def delete(cls, table_name, id):
         conn, cur = cls.get_conn_cur()
-        cur.execute(f'''
-            DELETE FROM {table_name}
-            WHERE id = {id};
-        ''')
+        cmd = f" DELETE FROM {table_name} WHERE id = {id};"
+        print(cmd)
+        cur.execute(cmd)
         conn.commit()
         cls.close(conn, cur)
 

@@ -6,9 +6,12 @@ from src.frames import DVDFrame
 
 class DVDSearchView(ttk.Frame):
     def __init__(self, parent, controler):
-        super().__init__(parent, width=parent.winfo_reqwidth())
+        super().__init__(parent)
         self.controler = controler
         self.selected_dvd = -1
+        self.page = 1
+        self.dvds_count = len(DVDModel.select())
+        self.page_labels = []
         # -- Ttworzenie elementów widoku --
         self.dvd_frames = [] # aktualnie wyświetlane dvd_frame
         self.search_bar = self.create_search_bar() # tworzenie pola do wyszukiwania
@@ -38,7 +41,7 @@ class DVDSearchView(ttk.Frame):
             dvd_frame.destroy()
         self.dvd_frames = []
         # stworzenie nowych DVDFrame
-        dvd_models = DVDModel.select(limit=10)
+        dvd_models = DVDModel.select(limit=10, offset=(self.page-1)*10)
         for i, dvd_model in enumerate(dvd_models):
             dvd = DVDFrame(parent, self, dvd_model)
             dvd.pack(anchor='w', pady=15, padx=10)
@@ -47,10 +50,12 @@ class DVDSearchView(ttk.Frame):
     # tworzenie panelu z przyciskami do przełączania stron
     def create_button_bar(self):
         bottom_bar = ttk.Frame(self)
-        left_button = ttk.Button(bottom_bar, text="<")
+        left_button = ttk.Button(bottom_bar, text="<", command=self.prev_page)
         left_button.pack(side='left')
-        ttk.Label(bottom_bar, text="1").pack(padx=30, side='left')
-        right_button = ttk.Button(bottom_bar, text=">")
+        page_label = ttk.Label(bottom_bar, text="1")
+        self.page_labels.append(page_label)
+        page_label.pack(padx=30, side='left')
+        right_button = ttk.Button(bottom_bar, text=">", command=self.next_page)
         right_button.pack(side='left')
         bottom_bar.pack(pady=10)
 
@@ -61,4 +66,20 @@ class DVDSearchView(ttk.Frame):
     def dvd_edit_view(self):
         self.controler.selected_dvd = self.selected_dvd
         self.controler.change_view('dvd_edit')
+
+    def next_page(self):
+        print(self.dvds_count)
+        if self.dvds_count - (self.page * 10) > 0:
+            self.page += 1
+            self.update_page()
+
+    def prev_page(self):
+        if self.page > 1:
+            self.page -= 1
+            self.update_page()
+
+    def update_page(self):
+        for label in self.page_labels:
+            label.configure(text = str(self.page))
+        self.create_search(self.dvd_frames_container)
 

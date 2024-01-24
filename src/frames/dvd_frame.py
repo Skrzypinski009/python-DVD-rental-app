@@ -1,6 +1,10 @@
 from tkinter import ttk
 import tkinter as tk
 from datetime import datetime
+from src.database.models import DVDCategoryRelationModel
+from src.database.models import CategoryModel
+from src.database.models import PhysicalDVDModel
+
 
 class DVDFrame(ttk.Frame):
     def __init__(self, parent, controller, dvd_model):
@@ -16,10 +20,15 @@ class DVDFrame(ttk.Frame):
 
         cat_frame = ttk.Frame(self)
         cat_frame.pack(anchor='w')
-        for i in range(4): # tworzenie poglądowych kategorii
-            lab = ttk.Label(cat_frame, text="Category")
+        category_relations = DVDCategoryRelationModel.select({'dvd_id': self.dvd_model.get_id()})
+        print(category_relations)
+        for relation in category_relations:
+            category = CategoryModel.select({'id': relation.get_category_id()})[0]
+            lab = ttk.Label(cat_frame, text=category.get_name())
             lab.pack(padx=10, side='left')
-        ttk.Label(self, text="liczba kopii: 2").pack(anchor='w')
+        
+        physical_dvds = PhysicalDVDModel.select({'dvd_id': self.dvd_model.get_id()})
+        ttk.Label(self, text=f"liczba kopii: {len(physical_dvds)}").pack(anchor='w')
         ttk.Button(self, text="Wyporzycz", command=self.dvd_borrow_view).pack(side='left')
         ttk.Button(self, text="Edytuj", command=self.dvd_edit_view).pack(side='left')
 
