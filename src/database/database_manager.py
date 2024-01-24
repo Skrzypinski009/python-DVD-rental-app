@@ -183,11 +183,13 @@ class DatabaseManager:
         cls.close(conn, cur)
 
     @classmethod
-    def select(cls, table_name, cols, where_fields, limit=None, offset=None):
+    def select(cls, table_name, cols, where_fields, limit=None, offset=None, order_col=None, desc=None):
         conn, cur = cls.get_conn_cur()
         where = ' AND '.join(cls.get_name_eq_val(where_fields))
         cmd = f'SELECT {", ".join(cols)} FROM {table_name}' 
         cmd += f' WHERE {where}' if where != '' else ''
+        cmd += f' ORDER BY {order_col}' if order_col != None else ''
+        cmd += ' DESC' if desc != None else ''
         cmd += f' LIMIT {str(limit)}' if limit != None else ''
         cmd += f' OFFSET {str(offset)}' if offset != None else ''
         print(cmd)
