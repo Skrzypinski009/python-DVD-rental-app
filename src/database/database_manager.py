@@ -21,15 +21,6 @@ class DatabaseManager:
         conn.close()
 
     @classmethod
-    def val_to_str(cls, val):
-        if(type(val) == str):
-            return f'"{val}"'
-        if(type(val) == datetime.datetime):
-            return f'{val.timestamp()}'
-
-        return str(val)
-
-    @classmethod
     def check_database(cls):
         if not 'data' in os.listdir():
             os.mkdir('data')
@@ -142,7 +133,16 @@ class DatabaseManager:
         cur.execute('''DROP TABLE IF EXISTS client_table''')
         conn.commit()
 
-### CLASS METHODS FOR MODELS ###
+### FORMATTING METHODS ###
+    @classmethod
+    def val_to_str(cls, val):
+        if(type(val) == str):
+            return f'"{val}"'
+        if(type(val) == datetime.datetime):
+            return f'{val.timestamp()}'
+
+        return str(val)
+
     @classmethod
     def get_name_eq_val(cls, fields: dict):
         eq = []
@@ -163,6 +163,7 @@ class DatabaseManager:
                 like.append( f'{key} LIKE {cls.val_to_str(val)}' )
         return like
 
+### CLASS METHODS FOR MODELS ###
     @classmethod
     def update(cls, table_name, id, fields):
         print(fields)
@@ -194,17 +195,10 @@ class DatabaseManager:
 
     @classmethod
     def select(
-            cls, 
-            table_name, 
-            cols, 
-            where_fields, 
-            like_fields={}, 
-            limit=None, 
-            offset=None, 
-            order_col=None, 
-            desc=None,
-            distinct=None
-        ):
+        cls, table_name, cols, where_fields, 
+        like_fields={}, limit=None, offset=None, 
+        order_col=None, desc=None, distinct=None
+    ):
         conn, cur = cls.get_conn_cur()
         where = ' AND '.join(cls.get_name_eq_val(where_fields))
         like = " OR ".join(cls.get_name_like_val(like_fields))

@@ -1,5 +1,3 @@
-import sqlite3
-from src.database.database_manager import DatabaseManager
 from .model import Model
 
 class DVDModel(Model):
@@ -7,19 +5,20 @@ class DVDModel(Model):
     FIELDS_NAMES = ['id', 'name', 'date']
     def __init__(self, id, name, date):
         super().__init__(id)
-        self.name = name
-        self.date = date
+        self.__name = name
+        self.__date = date
     
 ### GETTERS ###
     def get_name(self):
-        return self.name
+        return self.__name
 
     def get_date(self):
-        return self.date
+        return self.__date
 
     def get_values(self):
-        return [self.id, self.name, self.date]
+        return [self.__id, self.__name, self.__date]
 
     @classmethod
     def get_by_row(cls, row):
         return DVDModel(row[0], row[1], row[2])
+

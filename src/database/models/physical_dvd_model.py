@@ -1,5 +1,3 @@
-import sqlite3
-from src.database.database_manager import DatabaseManager
 from .model import Model
 
 class PhysicalDVDModel(Model):
@@ -7,25 +5,25 @@ class PhysicalDVDModel(Model):
     FIELDS_NAMES = ['id', 'physical_code', 'dvd_id', 'rental_state']
     def __init__(self, id, physical_code, dvd_id, rental_state):
         super().__init__(id)
-        self.physical_code = physical_code
-        self.dvd_id = dvd_id
-        self.rental_state = rental_state
+        self.__physical_code = physical_code
+        self.__dvd_id = dvd_id
+        self.__rental_state = rental_state
     
 ### GETTERS ###
     def get_physical_code(self):
-        return self.physical_code
+        return self.__physical_code
 
     def get_dvd_id(self):
-        return self.dvd_id
+        return self.__dvd_id
     
     def get_email(self):
-        return self.email
+        return self.__email
 
     def get_rental_state(self):
-        return self.rental_state
+        return self.__rental_state
 
     def get_values(self):
-        return [self.id, self.physical_code, self.dvd_id, self.rental_state]
+        return [self.__id, self.__physical_code, self.__dvd_id, self.__rental_state]
 
     @classmethod
     def get_by_row(cls, row):

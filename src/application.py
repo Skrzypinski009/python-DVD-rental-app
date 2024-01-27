@@ -1,15 +1,16 @@
 import tkinter as tk
 from tkinter import ttk
+from src.database.database_manager import DatabaseManager
 from src.views.dvd_search_view import DVDSearchView
-from src.frames.header_frame import HeaderFrame
-from src.views.dvd_add_view import DVDAddView
-from src.views.dvd_edit_view import DVDEditView
-from src.views.history_log_view import HistoryLogView
-from src.views.dvd_borrow_view import DVDBorrowView
-from src.views.dvd_return_view import DVDReturnView
+from src.frames import HeaderFrame
+from src.views import DVDAddView
+from src.views import DVDEditView
+from src.views import HistoryLogView
+from src.views import DVDBorrowView
+from src.views import DVDReturnView
 
 class Application(tk.Tk):
-    views = {
+    __views = {
         "dvd_search": DVDSearchView,
         "dvd_add": DVDAddView,
         "dvd_edit": DVDEditView,
@@ -19,52 +20,51 @@ class Application(tk.Tk):
     }
     def __init__(self):
         super().__init__()
-        self.title("Ale jaja")
-        self.geometry("800x600")
-        self.configure_styles()
-        self.create_main_view()
-        self.selected_dvd = -1
+        self.__selected_dvd_id = -1
+        self.__current_view = None
+        self.__view_container = None
+        self.__current_view_window = None
 
-    def create_main_view(self):
-        self.current_view = None
+        DatabaseManager.check_database()
+        self.title("DVD Aplication")
+        self.geometry("1280x720")
+        self.configure(bg='#555')
+        self.__create_main_view()
+
+    def get_selected_dvd_id(self):
+        return self.__selected_dvd_id
+
+    def set_selected_dvd_id(self, dvd_id):
+        self.__selected_dvd_id = dvd_id
+
+    def __create_main_view(self):
+        # Header
         header = HeaderFrame(self, self)
-        header.pack(side="top", fill='both')
-        header.configure(style='Header.TFrame')
-        self.view_container = tk.ttk.Frame(self)
-        self.view_container.configure(style="ViewContainer.TFrame")
-        self.view_container.pack(fill='both', expand=True)
-        self.view_canvas = tk.Canvas(self.view_container)
-        self.view_canvas.pack(side='left', fill='both', expand=True)
-        scrollbar = tk.ttk.Scrollbar(self.view_container, command=self.view_canvas.yview)
+        header.pack(fill='both')
+        # View Kontener
+        self.__view_container = tk.Frame(self)
+        self.__view_container.pack(fill='both', expand=True)
+
+        self.__view_canvas = tk.Canvas(self.__view_container, background='#555')
+        self.__view_canvas.pack(side='left', fill='both', expand=True)
+
+        scrollbar = tk.Scrollbar(self.__view_container, command=self.__view_canvas.yview)
         scrollbar.pack(side='right', fill='y')
-        self.view_canvas.configure(yscrollcommand=scrollbar.set)
-        self.view_canvas.bind("<Configure>", self.on_configure)
+
+        self.__view_canvas.configure(yscrollcommand=scrollbar.set)
+        self.__view_canvas.bind("<Configure>", self.on_configure)
         self.change_view('dvd_search')
 
     def change_view(self, view:str):
-        if self.current_view is not None:
-            self.view_canvas.delete(self.current_view_window)
-            self.current_view.destroy()
-        self.current_view = self.views[view](self.view_canvas, self)
-        self.current_view_window = self.view_canvas.create_window(
-            (0,0), window=self.current_view, anchor='nw', width=self.view_canvas.winfo_width())
-
-
-    def configure_styles(self):
-        self.style = ttk.Style()
-        #self.style.theme_use('clam')
-        # self.style.configure('View.TLabel', background='red')
-        # self.style.configure('View.TFrame', background='blue')
-        self.style.configure('Header.TFrame', background='#333', relief='flat') 
-        self.style.configure(
-            'Header.TButton', 
-            background='#222', 
-            foreground='#ddd', 
-            relief='flat', 
-            font=('Arial', 16, 'normal')
+        if self.__current_view is not None:
+            self.__view_canvas.delete(self.__current_view_window)
+            self.__current_view.destroy()
+        self.__current_view = self.__views[view](self.__view_canvas, self)
+        self.__current_view_window = self.__view_canvas.create_window(
+            (0,0), window=self.__current_view, anchor='nw', width=self.__view_canvas.winfo_width(),
         )
 
     def on_configure(self, event):
-        self.view_canvas.configure(scrollregion=self.view_canvas.bbox("all"))
-        self.view_canvas.itemconfig(self.current_view_window, width=event.width)
+        self.__view_canvas.configure(scrollregion=self.__view_canvas.bbox("all"))
+        self.__view_canvas.itemconfig(self.__current_view_window, width=event.width)
 

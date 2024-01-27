@@ -1,12 +1,13 @@
 import tkinter as tk
-from tkinter import ttk
 from src.frames import AddEditDVDFrame
 
-class DVDAddView(ttk.Frame):
+class DVDAddView(tk.Frame):
     def __init__(self, parent, controller):
-        super().__init__(parent)
-        self.controller = controller
+        super().__init__(parent, bg='#555')
+        self.__controller = controller
+        self.__create_view()
 
-        self.ae_dvd_frame = AddEditDVDFrame(self, self, 'add', -1)
-        self.ae_dvd_frame.pack()
+    def __create_view(self):
+        self.__ae_dvd_frame = AddEditDVDFrame(self, self.__controller, 'add', -1)
+        self.__ae_dvd_frame.pack()
 

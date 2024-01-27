@@ -1,5 +1,3 @@
-import sqlite3
-from src.database.database_manager import DatabaseManager
 from .model import Model
 
 class CategoryModel(Model):
@@ -7,15 +5,16 @@ class CategoryModel(Model):
     FIELDS_NAMES = ['id', 'name']
     def __init__(self, id, name):
         super().__init__(id)
-        self.name = name
+        self.__name = name
     
 ### GETTERS ###
     def get_name(self):
-        return self.name
+        return self.__name
 
     def get_values(self):
-        return [self.id, self.name]
+        return [self.__id, self.__name]
 
     @classmethod
     def get_by_row(cls, row):
         return CategoryModel(row[0], row[1])
+

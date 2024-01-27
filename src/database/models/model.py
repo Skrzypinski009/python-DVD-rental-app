@@ -1,34 +1,33 @@
-import sqlite3
 from src.database.database_manager import DatabaseManager
 
 class Model:
     TABLE_NAME = ""
     FIELDS_NAMES = ['id']
     def __init__(self, id):
-        self.id = id
+        self.__id = id
 
 ### GETTERS ###
     def get_id(self):
-        return self.id
+        return self.__id
 
     @classmethod
     def get_fields_names(cls):
-        return FIELDS_NAMES
+        return __FIELDS_NAMES
 
     def get_values(self):
-        return [self.id]
+        return [self.__id]
 
     def get_fields(self):
-        return dict(zip(FIELDS_NAMES, self.get_values()))
+        return dict(zip(__FIELDS_NAMES, self.__get_values()))
 
 ### DATABASE METHODS ###
     def update(self, fields):
         print(fields)
-        DatabaseManager.update(self.TABLE_NAME, self.id, fields)
-        return self.select({'id': self.id})
+        DatabaseManager.update(self.TABLE_NAME, self.__id, fields)
+        return self.select({'id': self.__id})
 
     def delete(self):
-        DatabaseManager.delete(self.TABLE_NAME, self.id)
+        DatabaseManager.delete(self.TABLE_NAME, self.__id)
 
 ### DATABASE CLASS METHODS ###
     @classmethod
