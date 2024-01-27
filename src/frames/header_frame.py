@@ -1,40 +1,37 @@
-from tkinter import ttk
+import tkinter as tk
 
-class HeaderFrame(ttk.Frame):
+class HeaderFrame(tk.Frame):
     def __init__(self, parent, controller):
-        super().__init__(parent)
-        self.controller = controller
-        padding_frame = ttk.Frame(self)
-        padding_frame.configure(style='Header.TFrame')
-        padding_frame.pack(padx=5, pady=5, fill='both')
+        super().__init__(parent, background='#333')
+        self.__bg_color = '#333'
+        self.__controller = controller
 
-        self.create_button(padding_frame, 'DVD Search', self.dvd_search_view)
-        self.create_button(padding_frame, 'DVD Add', self.dvd_add_view)
-        self.create_button(padding_frame, 'Return DVD', self.dvd_return_view)
-        self.create_button(padding_frame, 'Rental History', self.history_log_view)
+        self.__padding_frame = tk.Frame(self, bg='#333')
+        self.__padding_frame.pack(padx=5, pady=8, fill='both')
+
+        self.__create_button('DVD Search', self.__dvd_search_view)
+        self.__create_button('DVD Add', self.__dvd_add_view)
+        self.__create_button('Return DVD', self.__dvd_return_view)
+        self.__create_button('Rental History', self.__history_log_view)
         
-    def create_button(self, parent, text, command):
-        button_frame = ttk.Frame(parent)
-        button_frame.pack(side='left', padx=15)
-        button_frame.configure(style='Header.TFrame')
-        button = ttk.Button(
-            button_frame, 
-            text=text, 
-            style='Header.TButton',
-            width=14,
-            command=command
+    def __create_button(self, text, command):
+        button = tk.Button(
+            self.__padding_frame, text=text, width=14, command=command,
+            bg='#222', fg='white',
+            activebackground='#444', activeforeground='white',
+            font=('Arial', 16), relief='flat'
         )
-        button.pack()
-        return (button, button_frame)
+        button.pack(side='left', padx=15)
     
-    def dvd_search_view(self):
-        self.controller.change_view('dvd_search')
+    def __dvd_search_view(self):
+        self.__controller.change_view('dvd_search')
 
-    def dvd_add_view(self):
-        self.controller.change_view('dvd_add')
+    def __dvd_add_view(self):
+        self.__controller.change_view('dvd_add')
 
-    def dvd_return_view(self):
-        self.controller.change_view('dvd_return')
+    def __dvd_return_view(self):
+        self.__controller.change_view('dvd_return')
 
-    def history_log_view(self):
-        self.controller.change_view('history_log')
+    def __history_log_view(self):
+        self.__controller.change_view('history_log')
+

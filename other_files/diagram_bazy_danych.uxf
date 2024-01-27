@@ -69,9 +69,9 @@ id: p_key
 --
 date and time
 --
-physical_dvd_id: f_key
+rental_state
 --
-rental_state_id: f_key
+physical_dvd_id: f_key
 --
 client_id: f_key
 </panel_attributes>
@@ -101,22 +101,6 @@ phone_number</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>140</x>
-      <y>310</y>
-      <w>220</w>
-      <h>70</h>
-    </coordinates>
-    <panel_attributes>rental_state
---
-id: p_key
---
-state (borrowed/not_borrowed)
-</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
       <x>450</x>
       <y>290</y>
       <w>220</w>
@@ -128,9 +112,9 @@ id: p_key
 --
 physical_code
 --
-dvd_id: f_key
+rental_state
 --
-rental_state_id: f_key
+dvd_id: f_key
 
 
 </panel_attributes>
@@ -146,17 +130,6 @@ rental_state_id: f_key
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>100.0;100.0;30.0;100.0;30.0;10.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>350</x>
-      <y>330</y>
-      <w>120</w>
-      <h>210</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>100.0;190.0;60.0;190.0;60.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -187,10 +160,10 @@ rental_state_id: f_key
       <x>660</x>
       <y>320</y>
       <w>120</w>
-      <h>70</h>
+      <h>90</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;50.0;50.0;50.0;50.0;10.0;100.0;10.0</additional_attributes>
+    <additional_attributes>10.0;70.0;50.0;70.0;50.0;10.0;100.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -198,9 +171,9 @@ rental_state_id: f_key
       <x>420</x>
       <y>310</y>
       <w>50</w>
-      <h>210</h>
+      <h>230</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>30.0;190.0;10.0;190.0;10.0;10.0;30.0;10.0</additional_attributes>
+    <additional_attributes>30.0;210.0;10.0;210.0;10.0;10.0;30.0;10.0</additional_attributes>
   </element>
 </diagram>
