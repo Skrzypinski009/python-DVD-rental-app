@@ -54,7 +54,7 @@ class AddEditDVDFrame(tk.Frame):
         ).pack(anchor='w', pady=(8,20))
         # Pole do wpisania roku wydania
         tk.Label(
-            self, text='Rok wydania', font=('Arial', 16),
+            self, text='Data wydania (DD/MM/YYYY)', font=('Arial', 16),
             bg=self.__bg_color, fg='white'
         ).pack(anchor='w')
         ttk.Entry(self, textvariable=self.__date_var, width=30).pack(anchor='w', pady=(8,20))
@@ -80,12 +80,19 @@ class AddEditDVDFrame(tk.Frame):
                 bg='#333', fg='white', activebackground='#444', activeforeground='white',
                 highlightthickness=0, relief='flat', font=('Arial', 14)
             ).pack()
-        self.__warning_label = tk.Label(self, text='', bg=self.__bg_color)
+        self.__warning_label = tk.Label(self, text='', bg=self.__bg_color, fg='red')
         self.__warning_label.pack()
 
     def __create(self):
         name = self.__name_var.get()
-        date = datetime.strptime(self.__date_var.get(), "%d/%m/%Y")
+        if name == '':
+            self.__warning_label.configure(text='Wprowadź nazwę!')
+            return
+        try:
+            date = datetime.strptime(self.__date_var.get(), "%d/%m/%Y")
+        except:
+            self.__warning_label.configure(text='Wprowadź poprawną datę!')
+            return
         DVDModel.insert({'name': name, 'date':date})
         self.__dvd_id = DVDModel.select({'name': name, 'date':date})[0].get_id()
         self.__update_categories()
@@ -95,9 +102,15 @@ class AddEditDVDFrame(tk.Frame):
 
 
     def __update(self):
-        # Aktualizacja nazwy i daty
         name = self.__name_var.get()
-        date = datetime.strptime(self.__date_var.get(), "%d/%m/%Y")
+        if name == '':
+            self.__warning_label.configure(text='Wprowadź nazwę!')
+            return
+        try:
+            date = datetime.strptime(self.__date_var.get(), "%d/%m/%Y")
+        except:
+            self.__warning_label.configure(text='Wprowadź poprawną datę!')
+            return
         DVDModel.select({'id': self.__dvd_id})[0].update(
             {'name': name, 'date': date}
         )
